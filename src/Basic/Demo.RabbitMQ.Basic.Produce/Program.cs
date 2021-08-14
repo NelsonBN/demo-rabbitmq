@@ -3,11 +3,11 @@ using System;
 using System.Text;
 using System.Threading;
 
-namespace Demo.RabbitMQ.ProduceAPP
+namespace Demo.RabbitMQ.Basic.Produce
 {
     public class Program
     {
-        private const int TIME_PAUSE = 10;
+        private const int TIME_PAUSE = 0;
         static void Main(string[] _)
         {
             var produceId = Guid.NewGuid();
@@ -43,6 +43,11 @@ namespace Demo.RabbitMQ.ProduceAPP
                     );
 
                     Console.WriteLine("--> Sent {0}", message);
+
+                    //if(messageId == 1)
+                    //{
+                    //    break;
+                    //}
 
                     if(TIME_PAUSE > 0)
                     {

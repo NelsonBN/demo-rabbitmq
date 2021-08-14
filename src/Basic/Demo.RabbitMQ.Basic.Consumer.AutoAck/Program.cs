@@ -3,7 +3,7 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Text;
 
-namespace Demo.RabbitMQ.ConsumerAPP
+namespace Demo.RabbitMQ.Basic.Consumer.AutoAck
 {
     public class Program
     {
@@ -28,13 +28,7 @@ namespace Demo.RabbitMQ.ConsumerAPP
                 );
 
                 var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (_, eventArgs) =>
-                {
-                    var body = eventArgs.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-
-                    Console.WriteLine($"--> Consume {consumerId} Received {message}");
-                };
+                consumer.Received += (sender, eventArgs) => _consumerReceived(consumerId, eventArgs);
 
                 channel.BasicConsume(
                     queue: "myqueue",
@@ -44,6 +38,24 @@ namespace Demo.RabbitMQ.ConsumerAPP
 
                 Console.WriteLine($"ConsumerAPP {consumerId} runing...");
                 Console.ReadLine();
+            }
+        }
+
+        private static void _consumerReceived(object sender, BasicDeliverEventArgs eventArgs)
+        {
+            var consumerId = (Guid)sender;
+            try
+            {
+                var body = eventArgs.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+
+                //throw new Exception("TEST..."); // To test
+
+                Console.WriteLine($"Consume {consumerId} >>> Received {message}");
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine($"Consume {consumerId} >>> Exception {exception.Message}");
             }
         }
     }

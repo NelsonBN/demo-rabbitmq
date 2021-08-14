@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.ProduceAPP", "src\ProduceAPP\1.ProduceAPP.csproj", "{7F17C960-D769-48EC-8F00-F2BAE7A9B8E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.Demo.RabbitMQ.Basic.Produce", "src\Basic\Demo.RabbitMQ.Basic.Produce\1.Demo.RabbitMQ.Basic.Produce.csproj", "{7F17C960-D769-48EC-8F00-F2BAE7A9B8E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.ConsumerAPP", "src\ConsumerAPP\2.ConsumerAPP.csproj", "{F75EB844-A405-492B-B7CC-0928113FA463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.Demo.RabbitMQ.Basic.Consumer.AutoAck", "src\Basic\Demo.RabbitMQ.Basic.Consumer.AutoAck\2.Demo.RabbitMQ.Basic.Consumer.AutoAck.csproj", "{F75EB844-A405-492B-B7CC-0928113FA463}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Project", "1.Project", "{E0709FC2-5272-4D80-BB9E-40F25FA8A0CB}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Basic", "2.Basic", "{BC6FF575-B631-4ACE-A463-19C89D231811}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.Demo.RabbitMQ.Basic.Consumer.ManualAck", "src\Basic\Demo.RabbitMQ.Basic.Consumer.ManualAck\3.Demo.RabbitMQ.Basic.Consumer.ManualAck.csproj", "{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,9 +53,26 @@ Global
 		{F75EB844-A405-492B-B7CC-0928113FA463}.Release|x64.Build.0 = Release|Any CPU
 		{F75EB844-A405-492B-B7CC-0928113FA463}.Release|x86.ActiveCfg = Release|Any CPU
 		{F75EB844-A405-492B-B7CC-0928113FA463}.Release|x86.Build.0 = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|x64.Build.0 = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|x64.ActiveCfg = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|x64.Build.0 = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F17C960-D769-48EC-8F00-F2BAE7A9B8E2} = {BC6FF575-B631-4ACE-A463-19C89D231811}
+		{F75EB844-A405-492B-B7CC-0928113FA463} = {BC6FF575-B631-4ACE-A463-19C89D231811}
+		{D02AD056-23F4-4449-B6EE-BBC7A1F06E4E} = {BC6FF575-B631-4ACE-A463-19C89D231811}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30BB714B-1872-416E-9CDC-759273876426}

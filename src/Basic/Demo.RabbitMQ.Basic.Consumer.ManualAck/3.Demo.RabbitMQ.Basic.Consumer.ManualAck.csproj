@@ -1,18 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
 
-    <RootNamespace>Demo.RabbitMQ.ProduceAPP</RootNamespace>
-    <AssemblyName>Demo.RabbitMQ.ProduceAPP</AssemblyName>
+    <RootNamespace>Demo.RabbitMQ.Basic.Consumer.ManualAck</RootNamespace>
+    <AssemblyName>Demo.RabbitMQ.Basic.Consumer.ManualAck</AssemblyName>
 
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
 </Project>
