@@ -3,11 +3,11 @@ using System;
 using System.Text;
 using System.Threading;
 
-namespace Demo.RabbitMQ.Basic.Produce
+namespace Demo.RabbitMQ.Fanout.Produce
 {
     public class Program
     {
-        private const int TIME_PAUSE = 0;
+        private const int TIME_PAUSE = 10;
         static void Main(string[] _)
         {
             var produceId = Guid.NewGuid();
@@ -20,12 +20,38 @@ namespace Demo.RabbitMQ.Basic.Produce
             using(var connection = factory.CreateConnection())
             using(var channel = connection.CreateModel())
             {
+                // Create exchange
+                channel.ExchangeDeclare(
+                    exchange: "Events",
+                    type: "fanout"
+                );
+
+                // Create queues
                 channel.QueueDeclare(
-                    queue: "myqueue",
+                    queue: "SaveEvents",
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null
+                );
+                channel.QueueDeclare(
+                    queue: "SendNotifications",
+                    durable: false,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null
+                );
+
+                // Attach queue to exchange
+                channel.QueueBind(
+                    queue: "SaveEvents",
+                    exchange: "Events",
+                    string.Empty
+                );
+                channel.QueueBind(
+                    queue: "SendNotifications",
+                    exchange: "Events",
+                    string.Empty
                 );
 
                 var messageId = 0;
@@ -36,8 +62,8 @@ namespace Demo.RabbitMQ.Basic.Produce
                     var body = Encoding.UTF8.GetBytes(message);
 
                     channel.BasicPublish(
-                        exchange: string.Empty,
-                        routingKey: "myqueue",
+                        exchange: "Events",
+                        routingKey: string.Empty,
                         basicProperties: null,
                         body: body
                     );

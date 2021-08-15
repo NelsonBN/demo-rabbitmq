@@ -2,11 +2,14 @@
 using RabbitMQ.Client.Events;
 using System;
 using System.Text;
+using System.Threading;
 
-namespace Demo.RabbitMQ.Basic.Consumer.AutoAck
+namespace Demo.RabbitMQ.Fanout.Consumer.SendNotifications
 {
     public class Program
     {
+        private const string MQ_Queue = "SendNotifications";
+
         static void Main(string[] _)
         {
             var consumerId = Guid.NewGuid();
@@ -20,7 +23,7 @@ namespace Demo.RabbitMQ.Basic.Consumer.AutoAck
             using(var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(
-                    queue: "myqueue",
+                    queue: MQ_Queue,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -28,34 +31,37 @@ namespace Demo.RabbitMQ.Basic.Consumer.AutoAck
                 );
 
                 var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (sender, eventArgs) => _consumerReceived(consumerId, eventArgs);
+                consumer.Received += (sender, eventArgs) => _consumerReceived(channel, eventArgs);
 
                 channel.BasicConsume(
-                    queue: "myqueue",
-                    autoAck: true,
+                    queue: MQ_Queue,
+                    autoAck: false,
                     consumer: consumer
                 );
 
-                Console.WriteLine("PRESS A KEY TO CONTINUE...");
+                Console.WriteLine($"Consumer {MQ_Queue} > PRESS A KEY TO CONTINUE...");
                 Console.ReadLine();
             }
         }
 
         private static void _consumerReceived(object sender, BasicDeliverEventArgs eventArgs)
         {
-            var consumerId = (Guid)sender;
+            var channel = (IModel)sender;
+
             try
             {
                 var body = eventArgs.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                //throw new Exception("TEST..."); // To test
-
-                Console.WriteLine($"Consume {consumerId} >>> Received {message}");
+                Console.WriteLine($"Consume {MQ_Queue} >>> Received {message}");
+                channel.BasicAck(eventArgs.DeliveryTag, false);
             }
             catch(Exception exception)
             {
-                Console.WriteLine($"Consume {consumerId} >>> Exception {exception.Message}");
+                channel.BasicNack(eventArgs.DeliveryTag, false, true);
+                Console.WriteLine($"Consume {MQ_Queue} >>> Exception {exception.Message}");
+
+                Thread.Sleep(100);
             }
         }
     }
