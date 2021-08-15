@@ -3,11 +3,11 @@ using System;
 using System.Text;
 using System.Threading;
 
-namespace Demo.RabbitMQ.Fanout.Produce
+namespace Demo.RabbitMQ.Direct.Produce
 {
     public class Program
     {
-        private const int TIME_PAUSE = 10;
+        private const int TIME_PAUSE = 0;
         static void Main(string[] _)
         {
             var produceId = Guid.NewGuid();
@@ -22,20 +22,20 @@ namespace Demo.RabbitMQ.Fanout.Produce
             {
                 // Create exchange
                 channel.ExchangeDeclare(
-                    exchange: "Events",
-                    type: "fanout"
+                    exchange: "Products",
+                    type: "direct"
                 );
 
                 // Create queues
                 channel.QueueDeclare(
-                    queue: "SaveEvents",
+                    queue: "Cart",
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
                     arguments: null
                 );
                 channel.QueueDeclare(
-                    queue: "SendNotifications",
+                    queue: "Notifications",
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -44,36 +44,55 @@ namespace Demo.RabbitMQ.Fanout.Produce
 
                 // Attach queue to exchange
                 channel.QueueBind(
-                    queue: "SaveEvents",
-                    exchange: "Events",
-                    routingKey: string.Empty
+                    queue: "Cart",
+                    exchange: "Products",
+                    routingKey: "Save"
                 );
                 channel.QueueBind(
-                    queue: "SendNotifications",
-                    exchange: "Events",
-                    routingKey: string.Empty
+                    queue: "Notifications",
+                    exchange: "Products",
+                    routingKey: "Save"
+                );
+                channel.QueueBind(
+                    queue: "Notifications",
+                    exchange: "Products",
+                    routingKey: "Notify"
                 );
 
                 var messageId = 0;
                 while(true)
                 {
                     messageId++;
-                    var message = $"Produce {produceId} - {messageId} > I am Nelson Nobre";
+                    var message = $"Produce > {produceId} - {messageId} > Buy a product";
                     var body = Encoding.UTF8.GetBytes(message);
 
                     channel.BasicPublish(
-                        exchange: "Events",
-                        routingKey: string.Empty,
+                        exchange: "Products",
+                        routingKey: "Save",
                         basicProperties: null,
                         body: body
                     );
 
-                    Console.WriteLine("--> Sent {0}", message);
+                    Console.WriteLine(">>> Save > {0}", message);
 
-                    //if(messageId == 1)
-                    //{
-                    //    break;
-                    //}
+                    // *************************
+
+                    message = $"Produce {produceId} - {messageId} > New promotion";
+                    body = Encoding.UTF8.GetBytes(message);
+
+                    channel.BasicPublish(
+                        exchange: "Products",
+                        routingKey: "Notify",
+                        basicProperties: null,
+                        body: body
+                    );
+
+                    Console.WriteLine(">>> Notify > {0}", message);
+
+                    if(messageId == 1)
+                    {
+                        break;
+                    }
 
                     if(TIME_PAUSE > 0)
                     {
@@ -83,7 +102,7 @@ namespace Demo.RabbitMQ.Fanout.Produce
                 }
             }
 
-            Console.WriteLine("PRESS A KEY TO CONTINUE...");
+            Console.WriteLine("Direct produce > PRESS A KEY TO CONTINUE...");
         }
     }
 }
