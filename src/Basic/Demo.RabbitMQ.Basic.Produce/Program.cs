@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.Basic.Produce
 {
     public class Program
     {
-        private const int TIME_PAUSE = 0;
+        private const int TIME_PAUSE = 20;
         static void Main(string[] _)
         {
             var produceId = Guid.NewGuid();
