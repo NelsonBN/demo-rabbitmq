@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.Events.Produce.EventReturn
 {
     public class Program
     {
-        private const string MQ_Queue = "TestQueue2";
+        private const string MQ_QUEUE = "TestQueue2";
         private const int TIME_PAUSE = 4000;
 
         static void Main(string[] _)
@@ -25,7 +25,7 @@ namespace Demo.RabbitMQ.Events.Produce.EventReturn
                 channel.ConfirmSelect();
 
                 channel.QueueDeclare(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,

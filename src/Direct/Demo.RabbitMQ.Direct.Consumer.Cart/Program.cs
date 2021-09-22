@@ -8,7 +8,7 @@ namespace Demo.RabbitMQ.Direct.Consumer.SaveEvents
 {
     public class Program
     {
-        private const string MQ_Queue = "Cart";
+        private const string MQ_QUEUE = "Cart";
 
         static void Main(string[] _)
         {
@@ -23,7 +23,7 @@ namespace Demo.RabbitMQ.Direct.Consumer.SaveEvents
             using(var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -34,12 +34,12 @@ namespace Demo.RabbitMQ.Direct.Consumer.SaveEvents
                 consumer.Received += (sender, eventArgs) => _consumerReceived(channel, eventArgs);
 
                 channel.BasicConsume(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     autoAck: false,
                     consumer: consumer
                 );
 
-                Console.WriteLine($"Consumer {MQ_Queue} > PRESS A KEY TO CONTINUE...");
+                Console.WriteLine($"Consumer {MQ_QUEUE} > PRESS A KEY TO CONTINUE...");
                 Console.ReadLine();
             }
         }
@@ -53,13 +53,13 @@ namespace Demo.RabbitMQ.Direct.Consumer.SaveEvents
                 var body = eventArgs.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                Console.WriteLine($"Consume {MQ_Queue} >>> Received {message}");
+                Console.WriteLine($"Consume {MQ_QUEUE} >>> Received {message}");
                 channel.BasicAck(eventArgs.DeliveryTag, false);
             }
             catch(Exception exception)
             {
                 channel.BasicNack(eventArgs.DeliveryTag, false, true);
-                Console.WriteLine($"Consume {MQ_Queue} >>> Exception {exception.Message}");
+                Console.WriteLine($"Consume {MQ_QUEUE} >>> Exception {exception.Message}");
 
                 Thread.Sleep(100);
             }

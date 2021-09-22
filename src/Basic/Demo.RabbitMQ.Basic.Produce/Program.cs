@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.Basic.Produce
 {
     public class Program
     {
-        private const string MQ_Queue = "myqueue";
+        private const string MQ_QUEUE = "myqueue";
         private const int TIME_PAUSE = 20;
         static void Main(string[] _)
         {
@@ -22,7 +22,7 @@ namespace Demo.RabbitMQ.Basic.Produce
             using(var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -38,7 +38,7 @@ namespace Demo.RabbitMQ.Basic.Produce
 
                     channel.BasicPublish(
                         exchange: string.Empty,
-                        routingKey: MQ_Queue,
+                        routingKey: MQ_QUEUE,
                         basicProperties: null,
                         body: body
                     );

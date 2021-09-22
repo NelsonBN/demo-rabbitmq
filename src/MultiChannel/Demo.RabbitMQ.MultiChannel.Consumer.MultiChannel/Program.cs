@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.MultiChannel
 {
     public class Program
     {
-        private const string MQ_Queue = "TestQueue";
+        private const string MQ_QUEUE = "TestQueue";
 
         static void Main(string[] _)
         {
@@ -31,7 +31,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.MultiChannel
         private static void _createConsumer(IModel channel, int channelId)
         {
             channel.QueueDeclare(
-                queue: MQ_Queue,
+                queue: MQ_QUEUE,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
@@ -59,7 +59,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.MultiChannel
             };
 
             channel.BasicConsume(
-                queue: MQ_Queue,
+                queue: MQ_QUEUE,
                 autoAck: false,
                 consumer: consumer
             );

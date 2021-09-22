@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.Events.Consumer
 {
     public class Program
     {
-        private const string MQ_Queue = "TestQueue2";
+        private const string MQ_QUEUE = "TestQueue2";
         private static uint _count = 0;
 
         static void Main(string[] _)
@@ -23,7 +23,7 @@ namespace Demo.RabbitMQ.Events.Consumer
             using(var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -34,7 +34,7 @@ namespace Demo.RabbitMQ.Events.Consumer
                 consumer.Received += (sender, eventArgs) => _consumerReceived(channel, eventArgs);
 
                 channel.BasicConsume(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     autoAck: false,
                     consumer: consumer
                 );

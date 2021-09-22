@@ -8,7 +8,7 @@ namespace Demo.RabbitMQ.MultiChannel.Produce
 {
     public class Program
     {
-        private const string MQ_Queue = "TestQueue";
+        private const string MQ_QUEUE = "TestQueue";
         private const int TIME_PAUSE = 20;
 
         static void Main(string[] _)
@@ -39,7 +39,7 @@ namespace Demo.RabbitMQ.MultiChannel.Produce
                 var channelId = Guid.NewGuid();
 
                 channel.QueueDeclare(
-                    queue: MQ_Queue,
+                    queue: MQ_QUEUE,
                     durable: false,
                     exclusive: false,
                     autoDelete: false,
@@ -55,7 +55,7 @@ namespace Demo.RabbitMQ.MultiChannel.Produce
 
                     channel.BasicPublish(
                         exchange: string.Empty,
-                        routingKey: MQ_Queue,
+                        routingKey: MQ_QUEUE,
                         basicProperties: null,
                         body: body
                     );

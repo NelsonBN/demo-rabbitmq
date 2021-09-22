@@ -7,7 +7,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.SameChannel
 {
     public class Program
     {
-        private const string MQ_Queue = "TestQueue";
+        private const string MQ_QUEUE = "TestQueue";
 
         static void Main(string[] _)
         {
@@ -21,7 +21,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.SameChannel
                 using(var channel = connection.CreateModel())
                 {
                     channel.QueueDeclare(
-                        queue: MQ_Queue,
+                        queue: MQ_QUEUE,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -63,7 +63,7 @@ namespace Demo.RabbitMQ.MultiChannel.Consumer.SameChannel
             };
 
             channel.BasicConsume(
-                queue: MQ_Queue,
+                queue: MQ_QUEUE,
                 autoAck: false,
                 consumer: consumer
             );
